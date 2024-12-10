@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+        }
+
+        label {
+            display: inline-block;
+            width: 80px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>All Users</h1>
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user.username}"></span>
+        <a th:href="@{/playlists/user/{userId}(userId=${user.id})}">View Playlists</a>
+        <a th:href="@{/users/delete/{id}(id=${user.id})}" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+    </li>
+</ul>
+
+<form th:action="@{/users}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <button type="submit">Add User</button>
+</form>
+</body>
+</html>

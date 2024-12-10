@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tracks in Playlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        form {
+            margin-top: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+        }
+
+        label {
+            display: inline-block;
+            width: 80px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .genre-info {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="back-link">
+    <a th:href="@{/users}">Back to Users</a>
+</div>
+<h1>Tracks in Playlist</h1>
+
+<!-- Add New Track Form -->
+<form th:action="@{/music-tracks}" method="post">
+    <input type="hidden" name="playlistId" th:value="${playlistId}">
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="artist">Artist:</label>
+    <input type="text" id="artist" name="artist" required><br>
+
+    <label for="genre">Genre:</label>
+    <select id="genre" name="genre" required>
+        <option value="">Select Genre</option>
+        <!-- Loop through the genres passed from the controller -->
+        <option th:each="g : ${genres}" th:value="${g.name}" th:text="${g.name}"></option>
+    </select><br>
+
+    <button type="submit">Add Track</button>
+</form>
+
+<ul>
+    <li th:each="track : ${tracks}">
+        <span th:text="${track.title}"></span> by <span th:text="${track.artist}"></span>
+        <span class="genre-info" th:text="${'Genre: ' + track.genre}"></span>
+    </li>
+</ul>
+</body>
+</html>
